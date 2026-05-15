@@ -1,0 +1,9 @@
+faster-whisper
+sounddevice
+scipy
+numpy
+torch
+silero-vad
+onnxruntime>=1.16.1
+# silero-vad ships silero_vad.onnx in site-packages; vad.py loads it without importing torchaudio
+requests

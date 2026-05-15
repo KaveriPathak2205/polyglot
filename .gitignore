@@ -1,0 +1,13 @@
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.env
+*.wav
+!models/.gitkeep
+models/*.onnx
+models/*.onnx.json
+piper
+piper.exe
+*.txt
+!requirements.txt
