@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Polyglot — real-time multilingual voice agent. Local VAD, Whisper, Ollama, and Piper TTS." />
+  <title>Polyglot — Multilingual Voice Agent</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="hero">
+    <p class="badge">Case 11 · Fresher Day</p>
+    <h1>Polyglot</h1>
+    <p class="lead">Real-time multilingual voice agent — English, Hindi, and Spanish — running fully on your machine.</p>
+    <div class="cta">
+      <a class="btn primary" href="https://github.com/" target="_blank" rel="noopener">View on GitHub</a>
+      <a class="btn" href="#run">How to run locally</a>
+    </div>
+    <p class="note">The voice agent runs on your PC (mic + speakers). This site is the project showcase.</p>
+  </header>
+
+  <main>
+    <section class="card">
+      <h2>Architecture</h2>
+      <pre class="diagram">Microphone
+    |
+    v
+Silero VAD          (end of speech)
+    |
+    v
+faster-whisper      (transcript + language)
+    |
+    v
+Ollama Llama 3.2 3B (reply + memory)
+    |
+    v
+Piper TTS           (matched voice)
+    |
+    v
+Speaker  -------- loop</pre>
+    </section>
+
+    <section class="card grid-2">
+      <div>
+        <h2>Tech stack</h2>
+        <ul class="tags">
+          <li>Python CLI</li>
+          <li>Silero VAD</li>
+          <li>faster-whisper</li>
+          <li>Ollama</li>
+          <li>Piper TTS</li>
+          <li>sounddevice</li>
+        </ul>
+      </div>
+      <div>
+        <h2>Latency target</h2>
+        <table>
+          <tr><th>Stage</th><th>~ms</th></tr>
+          <tr><td>VAD</td><td>50</td></tr>
+          <tr><td>ASR</td><td>300</td></tr>
+          <tr><td>LLM</td><td>400</td></tr>
+          <tr><td>TTS</td><td>200</td></tr>
+          <tr><td><strong>Total</strong></td><td><strong>1050</strong></td></tr>
+        </table>
+      </div>
+    </section>
+
+    <section id="run" class="card">
+      <h2>Run locally</h2>
+      <p>The agent cannot run on Vercel — it needs your microphone, Ollama, and Piper on your laptop.</p>
+      <pre class="code">cd polyglot
+python -m venv .venv
+.venv\Scripts\activate
+pip install -r requirements.txt
+ollama pull llama3.2:3b
+python main.py</pre>
+      <p>See the repository <code>README.md</code> for Piper setup and evaluation scenarios.</p>
+    </section>
+
+    <section class="card">
+      <h2>Key features</h2>
+      <ul class="features">
+        <li><strong>Multilingual memory</strong> — context kept across EN / HI / ES switches</li>
+        <li><strong>100% local</strong> — no paid APIs, privacy-friendly</li>
+        <li><strong>Language-aware replies</strong> — Whisper detects language; LLM follows</li>
+        <li><strong>Per-turn latency</strong> — printed for evaluation</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer>
+    <p>Polyglot Voice Agent · Open-source stack only</p>
+  </footer>
+</body>
+</html>
