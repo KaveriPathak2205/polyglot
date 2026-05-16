@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Polyglot — Slide Deck</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Segoe UI", system-ui, sans-serif;
+      background: #0f1419;
+      color: #e7ecf3;
+      overflow: hidden;
+    }
+    .deck { height: 100vh; width: 100vw; position: relative; }
+    .slide {
+      display: none;
+      height: 100%;
+      padding: 4rem 5rem;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .slide.active { display: flex; }
+    .slide h1 {
+      font-size: 2.8rem;
+      font-weight: 700;
+      color: #7dd3fc;
+      margin-bottom: 0.5rem;
+    }
+    .slide h2 {
+      font-size: 1.5rem;
+      font-weight: 400;
+      color: #94a3b8;
+      margin-bottom: 2rem;
+    }
+    .slide h3 {
+      font-size: 1.35rem;
+      color: #fbbf24;
+      margin: 1.25rem 0 0.75rem;
+    }
+    .slide p, .slide li {
+      font-size: 1.2rem;
+      line-height: 1.65;
+      color: #cbd5e1;
+    }
+    .slide ul { margin-left: 1.5rem; }
+    .slide li { margin: 0.4rem 0; }
+    pre {
+      background: #1e293b;
+      border-radius: 12px;
+      padding: 1.25rem 1.5rem;
+      font-size: 0.95rem;
+      line-height: 1.45;
+      margin: 1rem 0;
+      overflow-x: auto;
+      color: #a5f3fc;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+      font-size: 1.05rem;
+    }
+    th, td {
+      border: 1px solid #334155;
+      padding: 0.65rem 1rem;
+      text-align: left;
+    }
+    th { background: #1e293b; color: #7dd3fc; }
+    .tagline { font-size: 1.35rem; color: #e2e8f0; margin-top: 1rem; }
+    .footer {
+      position: fixed;
+      bottom: 1.25rem;
+      right: 2rem;
+      font-size: 0.9rem;
+      color: #64748b;
+    }
+    .nav {
+      position: fixed;
+      bottom: 1.25rem;
+      left: 2rem;
+      font-size: 0.85rem;
+      color: #64748b;
+    }
+    .accent { color: #34d399; font-weight: 600; }
+    .center { text-align: center; align-items: center; }
+  </style>
+</head>
+<body>
+  <div class="deck" id="deck">
+
+    <section class="slide active center">
+      <h1>Polyglot</h1>
+      <h2>Real-Time Multilingual Voice Agent</h2>
+      <p class="tagline">Case 11 · Fresher Day Project</p>
+      <ul style="list-style:none; margin-top:2rem; text-align:center;">
+        <li>English · Hindi · Spanish</li>
+        <li>Local · Open-source · No paid APIs</li>
+      </ul>
+    </section>
+
+    <section class="slide">
+      <h1>Problem & Solution</h1>
+      <h3>The challenge</h3>
+      <ul>
+        <li>Assistants often <span class="accent">lose context</span> when language switches</li>
+        <li>Cloud voice APIs need internet and keys</li>
+        <li>Voice loops must feel instant (&lt; 2 seconds)</li>
+      </ul>
+      <h3>Polyglot</h3>
+      <ul>
+        <li>Fully local Python CLI on a laptop</li>
+        <li>Mic → VAD → Whisper → Ollama → Piper → Speaker</li>
+        <li>Memory persists across <span class="accent">EN → HI → ES</span> turns</li>
+      </ul>
+    </section>
+
+    <section class="slide">
+      <h1>Architecture</h1>
+      <pre>
+  Microphone
+      |
+      v
+  Silero VAD          (end of speech: 1.2s silence)
+      |
+      v
+  faster-whisper      (text + language code)
+      |
+      v
+  Ollama Llama 3.2 3B (reply + full history)
+      |
+      v
+  Piper TTS           (voice matched to language)
+      |
+      v
+  Speaker  ────────── loop
+      </pre>
+      <p><strong>Key rule:</strong> Language updates each turn; conversation memory never resets.</p>
+    </section>
+
+    <section class="slide">
+      <h1>Tech Stack & Latency</h1>
+      <table>
+        <tr><th>Stage</th><th>Tool</th><th>Target</th></tr>
+        <tr><td>VAD</td><td>Silero</td><td>~50 ms</td></tr>
+        <tr><td>ASR + language</td><td>faster-whisper</td><td>~300 ms</td></tr>
+        <tr><td>LLM</td><td>Llama 3.2 3B</td><td>~400 ms</td></tr>
+        <tr><td>TTS</td><td>Piper</td><td>~200 ms</td></tr>
+        <tr><td>Playback</td><td>sounddevice</td><td>~100 ms</td></tr>
+        <tr><td><strong>Total</strong></td><td></td><td><strong>~1.05 s</strong></td></tr>
+      </table>
+    </section>
+
+    <section class="slide center">
+      <h1>Demo & Conclusion</h1>
+      <ul style="max-width: 42rem;">
+        <li><strong>Scenario 1:</strong> Order 4421 remembered after Hindi switch</li>
+        <li><strong>Scenario 2:</strong> Spanish hotels → English recall</li>
+        <li><strong>Scenario 4:</strong> Three cities weather → compare all</li>
+      </ul>
+      <p class="tagline" style="margin-top:2rem;">100% offline · Privacy-friendly · Measurable latency</p>
+      <h2 style="margin-top:2rem;">Thank you — Questions?</h2>
+    </section>
+
+  </div>
+
+  <div class="nav">← → or click to navigate · Slide <span id="num">1</span>/5</div>
+  <div class="footer">Polyglot Voice Agent</div>
+
+  <script>
+    const slides = document.querySelectorAll(".slide");
+    let i = 0;
+    const num = document.getElementById("num");
+    function show(n) {
+      i = (n + slides.length) % slides.length;
+      slides.forEach((s, j) => s.classList.toggle("active", j === i));
+      num.textContent = i + 1;
+    }
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowRight" || e.key === " ") { e.preventDefault(); show(i + 1); }
+      if (e.key === "ArrowLeft") show(i - 1);
+    });
+    document.addEventListener("click", () => show(i + 1));
+    show(0);
+  </script>
+</body>
+</html>

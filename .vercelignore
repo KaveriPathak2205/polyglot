@@ -1,0 +1,21 @@
+# CLI voice agent — not deployed to Vercel (static web/ only)
+main.py
+vad.py
+asr.py
+llm.py
+tts.py
+audio.py
+config.py
+test_modules.py
+requirements.txt
+*.py
+.venv/
+venv/
+__pycache__/
+models/
+piper.exe
+piper
+*.onnx
+*.wav
+download_piper.ps1
+setup_piper.ps1
