@@ -137,7 +137,7 @@ Edit `config.py`:
 If `python main.py` uses packages from another folder (e.g. `Text_to_Speech_WebApp\Lib`), create a dedicated venv:
 
 ```powershell
-cd C:\Users\utpal\polyglot
+cd "path\to\project\folder\polyglot"
 python -m venv .venv
 .venv\Scripts\activate
 pip install -r requirements.txt
